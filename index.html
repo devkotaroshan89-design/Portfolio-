@@ -219,6 +219,37 @@
       color: #e2e8f0;
       font-family: 'Plus Jakarta Sans', sans-serif;
       overflow-x: hidden;
+      transition: background-color 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  color 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ==========================================================================
+       GLOBAL CINEMATIC THEME TRANSITION
+       Smoothly cross-fades backgrounds, text, borders, glass surfaces, and shadows
+       ========================================================================== */
+    html.theme-transitioning,
+    html.theme-transitioning *,
+    html.theme-transitioning *::before,
+    html.theme-transitioning *::after {
+      transition: background-color 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                  color 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                  fill 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                  stroke 0.48s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      transition-delay: 0s !important;
+    }
+
+    /* Preserve real-time precision for mouse cursor follower, particle canvas, and video */
+    html.theme-transitioning #custom-cursor,
+    html.theme-transitioning #cursor-dot,
+    html.theme-transitioning #cursor-glow,
+    html.theme-transitioning canvas,
+    html.theme-transitioning video,
+    html.theme-transitioning audio,
+    html.theme-transitioning .no-theme-transition {
+      transition: none !important;
     }
 
     /* Ambient Cursor Follower Glow */
@@ -261,34 +292,63 @@
       box-shadow: 0 16px 36px -10px rgba(6, 182, 212, 0.2);
     }
 
-    /* Clean Accordion Styles */
+    /* Clean Accordion Styles: Smooth max-height & Rotate Transitions */
     .accordion-item {
       background: rgba(13, 17, 26, 0.65);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+                  border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .accordion-item:hover {
-      border-color: rgba(6, 182, 212, 0.3);
+      border-color: rgba(6, 182, 212, 0.35);
+      transform: translateY(-1px);
     }
     .accordion-item.active {
       border-color: rgba(6, 182, 212, 0.5);
-      background: rgba(15, 23, 42, 0.85);
-      box-shadow: 0 12px 30px -10px rgba(6, 182, 212, 0.15);
+      background: rgba(15, 23, 42, 0.88);
+      box-shadow: 0 12px 32px -10px rgba(6, 182, 212, 0.2);
     }
+
+    /* Smooth Height Transition with max-height */
     .accordion-content {
       max-height: 0;
       overflow: hidden;
       opacity: 0;
-      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      visibility: hidden;
+      transition: max-height 0.42s cubic-bezier(0.16, 1, 0.3, 1), 
+                  opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.42s ease;
+      will-change: max-height, opacity;
     }
     .accordion-item.active .accordion-content {
       opacity: 1;
+      visibility: visible;
+    }
+
+    /* Accordion Chevron: 180° Rotate Animation on Toggle */
+    .accordion-chevron {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                  background-color 0.3s ease, 
+                  border-color 0.3s ease, 
+                  color 0.3s ease,
+                  box-shadow 0.3s ease !important;
+      transform-origin: center center;
+      will-change: transform;
     }
     .accordion-item.active .accordion-chevron {
-      transform: rotate(180deg);
-      color: #06b6d4;
+      transform: rotate(180deg) scale(1.05) !important;
+      background-color: rgba(6, 182, 212, 0.2) !important;
+      border-color: rgba(6, 182, 212, 0.5) !important;
+      color: #22d3ee !important;
+      box-shadow: 0 0 18px -2px rgba(6, 182, 212, 0.45) !important;
+    }
+    .accordion-chevron i {
+      display: inline-block;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     /* Lightbox Modal Animations & Scrubber */
@@ -637,6 +697,12 @@
       color: #334155 !important;
       border-color: rgba(15, 23, 42, 0.08) !important;
     }
+    html.light .accordion-item.active .accordion-chevron {
+      background-color: rgba(6, 182, 212, 0.15) !important;
+      border-color: rgba(6, 182, 212, 0.5) !important;
+      color: #0891b2 !important;
+      box-shadow: 0 0 16px -2px rgba(6, 182, 212, 0.25) !important;
+    }
 
     /* Formspree Inputs in Light Mode */
     html.light input:not([type=range]),
@@ -653,6 +719,23 @@
     html.light select option {
       background-color: #ffffff !important;
       color: #0f172a !important;
+    }
+
+    /* Portfolio Search Controls in Light Mode */
+    html.light #portfolio-controls-bar {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border-color: rgba(15, 23, 42, 0.08) !important;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05) !important;
+    }
+    html.light #search-clear-btn {
+      color: #64748b !important;
+    }
+    html.light #search-clear-btn:hover {
+      color: #0f172a !important;
+    }
+    html.light #portfolio-empty-state {
+      background: rgba(255, 255, 255, 0.92) !important;
+      border-color: rgba(6, 182, 212, 0.4) !important;
     }
 
     /* Footer in Light Mode */
@@ -683,6 +766,77 @@
     }
     html.light #lightbox-backdrop {
       background-color: rgba(15, 23, 42, 0.65) !important;
+    }
+
+    /* ==========================================================================
+       AI PRODUCTION DISPATCH CHAT WIDGET: SMOOTH BOTTOM-RIGHT SLIDE ANIMATIONS
+       ========================================================================== */
+    #ai-chat-drawer {
+      transform-origin: bottom right;
+      will-change: transform, opacity, filter, visibility;
+      box-shadow: 
+        0 20px 60px -10px rgba(0, 0, 0, 0.8),
+        0 0 40px -10px rgba(6, 182, 212, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+
+    /* Closed State: resting smoothly off-screen towards bottom right */
+    #ai-chat-drawer.chat-drawer-closed {
+      opacity: 0 !important;
+      pointer-events: none !important;
+      visibility: hidden !important;
+      transform: translate3d(52px, 72px, 0) scale(0.82) !important;
+      filter: blur(8px) brightness(0.8);
+      transition: 
+        transform 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        filter 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        visibility 0.32s ease;
+    }
+
+    /* Open State: smoothly slides in from bottom right with natural spring deceleration */
+    #ai-chat-drawer.chat-drawer-open {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      visibility: visible !important;
+      transform: translate3d(0, 0, 0) scale(1) !important;
+      filter: blur(0px) brightness(1);
+      transition: 
+        transform 0.44s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+        visibility 0s linear;
+    }
+
+    /* Responsive adjustments for mobile viewports */
+    @media (max-width: 640px) {
+      #ai-chat-drawer {
+        transform-origin: bottom center;
+        width: calc(100vw - 24px) !important;
+        right: 12px !important;
+        left: 12px !important;
+        margin: 0 auto;
+      }
+      #ai-chat-drawer.chat-drawer-closed {
+        transform: translate3d(0, 56px, 0) scale(0.9) !important;
+      }
+    }
+
+    /* Floating trigger button active glow and rotational icon physics */
+    #ai-chat-toggle-btn {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    }
+    #ai-chat-toggle-btn.btn-active {
+      transform: scale(1.06);
+      box-shadow: 
+        0 0 35px rgba(6, 182, 212, 0.65), 
+        0 0 15px rgba(139, 92, 246, 0.5) !important;
+    }
+    #ai-chat-toggle-btn #ai-chat-toggle-icon {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #ai-chat-toggle-btn.btn-active #ai-chat-toggle-icon {
+      transform: rotate(180deg);
     }
   </style>
 </head>
@@ -1547,39 +1701,83 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <!-- Section Header -->
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12" data-aos="fade-up">
-          <div>
-            <div class="text-xs font-mono text-cyan-400 tracking-wider uppercase mb-2">04. Selected Works</div>
-            <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
-              Production Vault &amp; Repositories
-            </h2>
-            <p class="text-slate-400 mt-2 text-base max-w-xl">
-              Browse classified project archives and Google Drive folders housing raw 4K edits, vertical reels, brand assets, and visual FX.
-            </p>
+        <div class="mb-10" data-aos="fade-up">
+          <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+            <div>
+              <div class="text-xs font-mono text-cyan-400 tracking-wider uppercase mb-2">04. Selected Works</div>
+              <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight">
+                Production Vault &amp; Repositories
+              </h2>
+              <p class="text-slate-400 mt-2 text-base max-w-xl">
+                Browse classified project archives and Google Drive folders housing raw 4K edits, vertical reels, brand assets, and visual FX.
+              </p>
+            </div>
+
+            <!-- Vault Metrics / Live Search Match Count -->
+            <div class="flex flex-wrap items-center gap-2.5 font-mono text-xs text-slate-400">
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/80 border border-white/10">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span>VAULT REPOSITORIES: 5 ACTIVE</span>
+              </span>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-900/80 border border-white/10 text-cyan-300">
+                <i class="fa-solid fa-filter text-xs text-cyan-400"></i>
+                <span id="search-match-count">Showing 4 of 4 Archives</span>
+              </span>
+            </div>
           </div>
 
-          <!-- Category Filters -->
-          <div class="flex flex-wrap items-center gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-white/10">
-            <button onclick="filterPortfolio('all')" class="portfolio-tab active px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-white bg-cyan-500/20 border border-cyan-500/50 shadow-sm" data-category="all">
-              All Archives
-            </button>
-            <button onclick="filterPortfolio('video')" class="portfolio-tab px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white" data-category="video">
-              Video Projects
-            </button>
-            <button onclick="filterPortfolio('reels')" class="portfolio-tab px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white" data-category="reels">
-              Reels &amp; Vertical
-            </button>
-            <button onclick="filterPortfolio('graphics')" class="portfolio-tab px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white" data-category="graphics">
-              Graphics &amp; Identity
-            </button>
-            <button onclick="filterPortfolio('motion')" class="portfolio-tab px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white" data-category="motion">
-              Motion FX
-            </button>
+          <!-- Portfolio Search & Category Filters Bar -->
+          <div id="portfolio-controls-bar" class="mt-8 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4 p-2.5 rounded-2xl glass-panel border border-white/10 shadow-glass">
+            
+            <!-- Quick Search Input -->
+            <div class="relative flex-1 group">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-cyan-400 transition-colors">
+                <i class="fa-solid fa-magnifying-glass text-sm"></i>
+              </div>
+              <input
+                type="text"
+                id="portfolio-search"
+                placeholder="Search archives by title or keywords (e.g. 4K, Premiere, Reels, DaVinci, Posters, VFX)..."
+                class="w-full pl-10 pr-10 py-2.5 bg-slate-900/90 border border-white/10 focus:border-cyan-400 rounded-xl text-xs sm:text-sm text-white placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 transition-all font-sans"
+                aria-label="Search portfolio projects by title or description keywords"
+                autocomplete="off"
+              />
+              <button
+                type="button"
+                id="search-clear-btn"
+                onclick="clearPortfolioSearch()"
+                class="hidden absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-white transition-colors"
+                aria-label="Clear search input"
+                title="Clear search (Esc)"
+              >
+                <i class="fa-solid fa-xmark text-xs bg-white/10 hover:bg-white/20 rounded-full w-5 h-5 flex items-center justify-center"></i>
+              </button>
+            </div>
+
+            <!-- Category Filters -->
+            <div class="flex flex-wrap items-center gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-white/10 shrink-0">
+              <button onclick="filterPortfolio('all')" class="portfolio-tab active px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all text-white bg-cyan-500/20 border border-cyan-500/50 shadow-sm" data-category="all">
+                All Archives
+              </button>
+              <button onclick="filterPortfolio('video')" class="portfolio-tab px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white" data-category="video">
+                Video Projects
+              </button>
+              <button onclick="filterPortfolio('reels')" class="portfolio-tab px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white" data-category="reels">
+                Reels &amp; Vertical
+              </button>
+              <button onclick="filterPortfolio('graphics')" class="portfolio-tab px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white" data-category="graphics">
+                Graphics &amp; Identity
+              </button>
+              <button onclick="filterPortfolio('motion')" class="portfolio-tab px-3.5 py-1.5 text-xs font-medium rounded-lg transition-all text-slate-400 hover:text-white" data-category="motion">
+                Motion FX
+              </button>
+            </div>
+
           </div>
         </div>
 
         <!-- Master Drive Vault Banner -->
-        <div class="mb-10 glass-panel p-6 sm:p-7 rounded-2xl border border-cyan-500/40 bg-gradient-to-r from-cyan-950/30 via-slate-900/60 to-violet-950/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-glow-cyan" data-aos="fade-up">
+        <div id="master-vault-banner" class="mb-10 glass-panel p-6 sm:p-7 rounded-2xl border border-cyan-500/40 bg-gradient-to-r from-cyan-950/30 via-slate-900/60 to-violet-950/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-glow-cyan" data-aos="fade-up">
           <div class="flex items-center gap-4 cursor-pointer group" onclick="openLightbox('master')">
             <div class="w-12 h-12 rounded-xl bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center text-cyan-400 text-2xl group-hover:scale-105 transition-transform">
               <i class="fa-brands fa-google-drive"></i>
@@ -1808,6 +2006,19 @@
 
         </div>
 
+        <!-- Portfolio Search Empty State -->
+        <div id="portfolio-empty-state" class="hidden text-center py-16 px-6 glass-panel rounded-2xl border border-dashed border-cyan-500/40 my-8 shadow-glass">
+          <div class="w-16 h-16 mx-auto rounded-2xl bg-cyan-950/40 border border-cyan-500/50 flex items-center justify-center text-cyan-400 text-2xl mb-4 shadow-glow-cyan">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <h3 class="font-display text-xl sm:text-2xl font-bold text-white tracking-tight">No Classified Archives Found</h3>
+          <p class="text-sm text-slate-400 mt-2 max-w-md mx-auto leading-relaxed">
+            No projects matched your search query "<span id="empty-query-term" class="text-cyan-300 font-mono font-semibold"></span>". Try searching for <span class="text-slate-300 font-mono">4K, Reels, DaVinci, Premiere, Color, or VFX</span>.
+          </p>
+          <button type="button" onclick="clearPortfolioSearch()" class="mt-6 px-5 py-2.5 rounded-xl text-xs font-semibold text-black bg-cyan-400 hover:bg-cyan-300 transition-all inline-flex items-center gap-2 shadow-glow-cyan transform hover:-translate-y-0.5">
+            <i class="fa-solid fa-rotate-left text-xs"></i>
+            <span>Clear Search &amp; Show All Works</span>
+          </button>
         </div>
 
       </div>
@@ -2665,13 +2876,15 @@
           toggleBtn.addEventListener('click', () => {
             const isActive = item.classList.contains('active');
 
-            // Close all items
+            // Close all items smoothly
             accordionItems.forEach(otherItem => {
-              otherItem.classList.remove('active');
               const otherBtn = otherItem.querySelector('.accordion-toggle');
               const otherContent = otherItem.querySelector('.accordion-content');
-              if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
-              if (otherContent) otherContent.style.maxHeight = null;
+              if (otherItem.classList.contains('active')) {
+                otherItem.classList.remove('active');
+                if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+                if (otherContent) otherContent.style.maxHeight = '0px';
+              }
             });
 
             // If not active before, open this item
@@ -2681,6 +2894,17 @@
               content.style.maxHeight = content.scrollHeight + "px";
             }
           });
+        }
+      });
+
+      // Recalculate open accordion height on window resize to ensure no text clipping
+      window.addEventListener('resize', () => {
+        const activeItem = document.querySelector('.accordion-item.active');
+        if (activeItem) {
+          const activeContent = activeItem.querySelector('.accordion-content');
+          if (activeContent) {
+            activeContent.style.maxHeight = activeContent.scrollHeight + "px";
+          }
         }
       });
 
@@ -2740,37 +2964,141 @@
         });
       }
 
+      // 7. Portfolio Search Real-Time Filtering
+      const portfolioSearch = document.getElementById('portfolio-search');
+      if (portfolioSearch) {
+        portfolioSearch.addEventListener('input', handlePortfolioSearch);
+        portfolioSearch.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            clearPortfolioSearch();
+          }
+        });
+      }
+
     });
 
-    // 6. Portfolio Category Filtering
+    // 6. Portfolio Category Filtering & Real-Time Keyword Search
+    let currentPortfolioCategory = 'all';
+    let currentPortfolioSearchQuery = '';
+
     function filterPortfolio(category) {
+      currentPortfolioCategory = category;
+
       // Update Tab Styles
       const tabs = document.querySelectorAll('.portfolio-tab');
       tabs.forEach(tab => {
         if (tab.getAttribute('data-category') === category) {
-          tab.classList.add('text-white', 'bg-cyan-500/20', 'border-cyan-500/50', 'shadow-sm');
+          tab.classList.add('text-white', 'bg-cyan-500/20', 'border-cyan-500/50', 'shadow-sm', 'active');
           tab.classList.remove('text-slate-400');
         } else {
-          tab.classList.remove('text-white', 'bg-cyan-500/20', 'border-cyan-500/50', 'shadow-sm');
+          tab.classList.remove('text-white', 'bg-cyan-500/20', 'border-cyan-500/50', 'shadow-sm', 'active');
           tab.classList.add('text-slate-400');
         }
       });
 
-      // Filter Cards
+      applyPortfolioFilters();
+    }
+
+    function handlePortfolioSearch(e) {
+      currentPortfolioSearchQuery = e.target.value.trim().toLowerCase();
+      
+      const clearBtn = document.getElementById('search-clear-btn');
+      if (clearBtn) {
+        if (currentPortfolioSearchQuery.length > 0) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+      }
+
+      applyPortfolioFilters();
+    }
+
+    function clearPortfolioSearch() {
+      const searchInput = document.getElementById('portfolio-search');
+      if (searchInput) {
+        searchInput.value = '';
+        searchInput.focus();
+      }
+      const clearBtn = document.getElementById('search-clear-btn');
+      if (clearBtn) clearBtn.classList.add('hidden');
+      
+      currentPortfolioSearchQuery = '';
+      applyPortfolioFilters();
+    }
+
+    function applyPortfolioFilters() {
       const items = document.querySelectorAll('.portfolio-item');
+      let visibleCount = 0;
+      const q = currentPortfolioSearchQuery;
+      const cat = currentPortfolioCategory;
+
       items.forEach(item => {
         const itemCat = item.getAttribute('data-category');
-        if (category === 'all' || itemCat === category) {
+        const matchesCategory = (cat === 'all' || itemCat === cat);
+
+        // Search in title, description, category, tags, and all inner text
+        const titleEl = item.querySelector('h3');
+        const descEl = item.querySelector('p');
+        const title = titleEl ? titleEl.textContent.toLowerCase() : '';
+        const desc = descEl ? descEl.textContent.toLowerCase() : '';
+        const allText = item.textContent.toLowerCase();
+
+        const matchesQuery = !q || title.includes(q) || desc.includes(q) || allText.includes(q);
+
+        if (matchesCategory && matchesQuery) {
           item.style.display = 'flex';
           item.style.opacity = '0';
           setTimeout(() => {
             item.style.transition = 'opacity 0.3s ease';
             item.style.opacity = '1';
           }, 30);
+          visibleCount++;
         } else {
           item.style.display = 'none';
         }
       });
+
+      // Master Drive Vault Banner search responsiveness
+      const masterBanner = document.getElementById('master-vault-banner');
+      if (masterBanner) {
+        if (q) {
+          const bannerText = masterBanner.textContent.toLowerCase();
+          if (bannerText.includes(q) && (cat === 'all')) {
+            masterBanner.style.display = 'flex';
+          } else {
+            masterBanner.style.display = 'none';
+          }
+        } else {
+          masterBanner.style.display = (cat === 'all') ? 'flex' : 'none';
+        }
+      }
+
+      // Update match count readout
+      const matchCountEl = document.getElementById('search-match-count');
+      if (matchCountEl) {
+        if (q) {
+          matchCountEl.textContent = `${visibleCount} Match${visibleCount === 1 ? '' : 'es'} Found`;
+        } else if (cat !== 'all') {
+          matchCountEl.textContent = `Showing ${visibleCount} Archive${visibleCount === 1 ? '' : 's'}`;
+        } else {
+          matchCountEl.textContent = `Showing ${visibleCount} of ${items.length} Archives`;
+        }
+      }
+
+      // Empty State display
+      const emptyState = document.getElementById('portfolio-empty-state');
+      const emptyQueryTerm = document.getElementById('empty-query-term');
+      if (emptyState) {
+        if (visibleCount === 0) {
+          emptyState.classList.remove('hidden');
+          if (emptyQueryTerm) {
+            emptyQueryTerm.textContent = q || cat;
+          }
+        } else {
+          emptyState.classList.add('hidden');
+        }
+      }
     }
 
     // 7. Skills Category Filtering
@@ -2837,7 +3165,7 @@
           const toggle = item.querySelector('.accordion-toggle');
           const content = item.querySelector('.accordion-content');
           if (toggle) toggle.setAttribute('aria-expanded', 'false');
-          if (content) content.style.maxHeight = null;
+          if (content) content.style.maxHeight = '0px';
         }
       });
 
@@ -3451,6 +3779,9 @@
 
     // 10. Theme Mode Controller (Obsidian Dark vs High-Contrast Light)
     function toggleTheme() {
+      // Trigger cinematic global transition class across all DOM elements
+      document.documentElement.classList.add('theme-transitioning');
+
       const isLight = document.documentElement.classList.contains('light');
       if (isLight) {
         document.documentElement.classList.remove('light');
@@ -3462,6 +3793,14 @@
         localStorage.setItem('theme', 'light');
       }
       updateThemeUI();
+
+      // Gracefully clean up transition class after cinematic transition completes
+      if (window.__themeTransitionTimer) {
+        clearTimeout(window.__themeTransitionTimer);
+      }
+      window.__themeTransitionTimer = setTimeout(() => {
+        document.documentElement.classList.remove('theme-transitioning');
+      }, 500);
     }
 
     function updateThemeUI() {
@@ -3475,10 +3814,14 @@
 
       if (isLight) {
         if (themeIcon) {
-          themeIcon.className = 'fa-solid fa-sun text-amber-500 text-xs transition-transform duration-300';
+          themeIcon.className = 'fa-solid fa-sun text-amber-500 text-xs transition-transform duration-500';
+          themeIcon.style.transform = 'rotate(180deg)';
         }
         if (themeLabel) themeLabel.textContent = 'LIGHT';
-        if (mobileThemeIcon) mobileThemeIcon.className = 'fa-solid fa-sun text-amber-500 text-xs';
+        if (mobileThemeIcon) {
+          mobileThemeIcon.className = 'fa-solid fa-sun text-amber-500 text-xs transition-transform duration-500';
+          mobileThemeIcon.style.transform = 'rotate(180deg)';
+        }
         if (mobileThemeLabel) mobileThemeLabel.textContent = 'Light Theme';
         if (themeBtn) {
           themeBtn.setAttribute('title', 'Switch to Obsidian Dark Mode (Alt+T)');
@@ -3487,10 +3830,14 @@
         }
       } else {
         if (themeIcon) {
-          themeIcon.className = 'fa-solid fa-moon text-cyan-400 text-xs transition-transform duration-300';
+          themeIcon.className = 'fa-solid fa-moon text-cyan-400 text-xs transition-transform duration-500';
+          themeIcon.style.transform = 'rotate(0deg)';
         }
         if (themeLabel) themeLabel.textContent = 'DARK';
-        if (mobileThemeIcon) mobileThemeIcon.className = 'fa-solid fa-moon text-cyan-400 text-xs';
+        if (mobileThemeIcon) {
+          mobileThemeIcon.className = 'fa-solid fa-moon text-cyan-400 text-xs transition-transform duration-500';
+          mobileThemeIcon.style.transform = 'rotate(0deg)';
+        }
         if (mobileThemeLabel) mobileThemeLabel.textContent = 'Dark Theme';
         if (themeBtn) {
           themeBtn.setAttribute('title', 'Switch to High-Contrast Light Mode (Alt+T)');
@@ -3508,5 +3855,8 @@
       }
     });
   </script>
+
+  <!-- Roshan Devkota AI Dispatch & Firebase Integration -->
+  <script type="module" src="/src/chatbot.ts"></script>
 </body>
 </html>
